@@ -1,6 +1,6 @@
 <?php
 /**
- * index_controller.inc 默认控制器声明。
+ * index-controller.inc 默认控制器声明。
  *
  * @copyright 2012-2015 Skihat team (skihat.cn)
  * @license   http://skihat.cn/license.html
