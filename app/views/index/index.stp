@@ -1,1 +1,2 @@
+<?php $this->helpers('core'); ?>
 <?php _h($this['hello']); ?>

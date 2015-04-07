@@ -20,6 +20,10 @@
  */
 class IndexController extends ApplicationController {
     public function indexAction() {
+        $this['hello'] = 'Skihat PHP MVC FRAMEWORK';
+    }
 
+    public function addLinkAction() {
+        $this->text('add-link');
     }
 }
