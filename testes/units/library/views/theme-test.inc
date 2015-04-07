@@ -119,26 +119,36 @@ class ThemeViewTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * 使用导入助手，使用模块。
+     * 测试导入模块助手。
      */
     public function testHelpersForModule() {
-        $theme = $this->_createTheme(array(SKIHAT_PARAM_MODULE => 'core'));
+        $theme = $this->_createTheme();
 
         $this->assertFalse(function_exists('core_module_helpers'));
-        $theme->helpers('core-module');
+        $theme->helpers('core:core-module');
         $this->assertTrue(function_exists('core_module_helpers'));
     }
+
+    /**
+     * 使用导入助手，使用模块。
+     *
+     * @expectedException FileNotFoundException
+     */
+    public function testHelpersForModuleFailed() {
+        $theme = $this->_createTheme(array(SKIHAT_PARAM_MODULE => 'core'));
+        $theme->helpers('core-module');
+    }
+
 
     /**
      * 测试助手路径，包含模块。
      */
     public function testHelperPathsForModule() {
         $theme = $this->_createTheme(array(SKIHAT_PARAM_MODULE => 'core'));
-
         $paths = $theme->helperPaths();
-        $this->assertEquals(replace_path(SKIHAT_PATH_APP_MODULES . '/core/views/__helpers'), replace_path($paths[0]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/views/__helpers'), replace_path($paths[1]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_LIBRARY . '/views/__helpers'), replace_path($paths[2]));
+
+        $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/views/__helpers'), replace_path($paths[0]));
+        $this->assertEquals(replace_path(SKIHAT_PATH_LIBRARY . '/views/__helpers'), replace_path($paths[1]));
     }
 
     /**
@@ -151,9 +161,8 @@ class ThemeViewTest extends PHPUnit_Framework_TestCase {
         $paths = $theme->helperPaths();
 
         $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/themes/default/__helpers'), replace_path($paths[0]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_APP_MODULES . '/core/views/__helpers'), replace_path($paths[1]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/views/__helpers'), replace_path($paths[2]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_LIBRARY . '/views/__helpers'), replace_path($paths[3]));
+        $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/views/__helpers'), replace_path($paths[1]));
+        $this->assertEquals(replace_path(SKIHAT_PATH_LIBRARY . '/views/__helpers'), replace_path($paths[2]));
     }
 
     /**
@@ -161,10 +170,10 @@ class ThemeViewTest extends PHPUnit_Framework_TestCase {
      */
     public function testHelpersForArray() {
         $theme = $this->_createTheme();
-        $theme->helpers('core', 'form');
+        $theme->helpers('core', 'paginate');
 
         $this->assertTrue(function_exists('link_to'));
-        $this->assertTrue(class_exists('FormBuilder'));
+        $this->assertTrue(function_exists('paginate_numbers'));
     }
 
     /**
@@ -174,7 +183,6 @@ class ThemeViewTest extends PHPUnit_Framework_TestCase {
      */
     public function testHelpersForFail() {
         $theme = $this->_createTheme();
-
         $theme->helpers('not-exists');
     }
 
@@ -553,10 +561,9 @@ class ThemeViewTest extends PHPUnit_Framework_TestCase {
         $theme = $this->_createTheme(array(SKIHAT_PARAM_MODULE => 'core'));
         $paths = $theme->layoutPaths();
 
-        $this->assertEquals(3, count($paths));
-        $this->assertEquals(replace_path(SKIHAT_PATH_APP_MODULES . '/core/views/__layouts'), replace_path($paths[0]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/views/__layouts'), replace_path($paths[1]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_LIBRARY . '/views/__layouts'), replace_path($paths[2]));
+        $this->assertEquals(2, count($paths));
+        $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/views/__layouts'), replace_path($paths[0]));
+        $this->assertEquals(replace_path(SKIHAT_PATH_LIBRARY . '/views/__layouts'), replace_path($paths[1]));
     }
 
     /**
@@ -567,11 +574,10 @@ class ThemeViewTest extends PHPUnit_Framework_TestCase {
         $theme->theme = 'default';
         $paths = $theme->layoutPaths();
 
-        $this->assertEquals(4, count($paths));
+        $this->assertEquals(3, count($paths));
         $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/themes/default/__layouts'), replace_path($paths[0]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_APP_MODULES . '/core/views/__layouts'), replace_path($paths[1]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/views/__layouts'), replace_path($paths[2]));
-        $this->assertEquals(replace_path(SKIHAT_PATH_LIBRARY . '/views/__layouts'), replace_path($paths[3]));
+        $this->assertEquals(replace_path(SKIHAT_PATH_APP . '/views/__layouts'), replace_path($paths[1]));
+        $this->assertEquals(replace_path(SKIHAT_PATH_LIBRARY . '/views/__layouts'), replace_path($paths[2]));
     }
 
     /**

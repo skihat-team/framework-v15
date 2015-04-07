@@ -27,6 +27,8 @@ class ViewException extends SkihatException {
  * @package skihat.views
  */
 interface IView {
+
+
     /**
      * @const string 模板扩展名。
      */

@@ -20,6 +20,11 @@
  */
 class Theme extends CollectionBase implements IView {
     /**
+     * @const string 模块分隔符。
+     */
+    const MODULE_SEPARATOR = ':';
+
+    /**
      * @const string 视图选项，占位符。
      */
     const OPT_PLACE = 'place';
@@ -43,6 +48,7 @@ class Theme extends CollectionBase implements IView {
      * @see IView::initialize
      */
     public function initialize(Controller $controller, array $options) {
+
         # 默认参数选项。
         $defaultOptions = array(
             SKIHAT_PARAM_MODULE => $controller->request->module(),
@@ -117,8 +123,15 @@ class Theme extends CollectionBase implements IView {
         $paths = $this->_helperPaths();
 
         foreach ($helpers as $helper) {
+            # 如果当前助手还没有加载到环境中。
             if (!isset($this->_helpers[$helper])) {
-                $this->_helpers[$helper] = Skihat::import($helper, $paths);
+                # 如果加载的不是模块助手。
+                if (strpos($helper, self::MODULE_SEPARATOR) !== false) {
+                    list($module, $file) = explode(self::MODULE_SEPARATOR, $helper);
+                    $this->_helpers[$helper] = Skihat::import("{$module}.views.__helpers.{$file}", SKIHAT_PATH_APP_MODULES);
+                } else {
+                    $this->_helpers[$helper] = Skihat::import($helper, $paths);
+                }
             }
         }
     }
@@ -353,10 +366,6 @@ class Theme extends CollectionBase implements IView {
             array_push($allPaths, SKIHAT_PATH_APP . "/themes/{$theme}/__helpers");
         }
 
-        if ($module = $this->_options[SKIHAT_PARAM_MODULE]) {
-            array_push($allPaths, SKIHAT_PATH_APP_MODULES . "/{$module}/views/__helpers");
-        }
-
         array_push($allPaths, SKIHAT_PATH_APP . '/views/__helpers');
         array_push($allPaths, SKIHAT_PATH_LIBRARY . '/views/__helpers');
 
@@ -404,10 +413,6 @@ class Theme extends CollectionBase implements IView {
 
         if ($theme = $this->theme) {
             array_push($allPaths, SKIHAT_PATH_APP . "/themes/{$theme}/__layouts");
-        }
-
-        if ($module = $this->_options[SKIHAT_PARAM_MODULE]) {
-            array_push($allPaths, SKIHAT_PATH_APP_MODULES . "/{$module}/views/__layouts");
         }
 
         array_push($allPaths, SKIHAT_PATH_APP . '/views/__layouts');
@@ -600,6 +605,11 @@ class Theme extends CollectionBase implements IView {
      * @var array 视图助手信息。
      */
     protected $_helpers = array();
+
+    /**
+     * @var array 视图模块助手信息。
+     */
+    protected $_moduleHelpers = array();
 
     /**
      * @var string|bool 视图助手路径缓存字段。
