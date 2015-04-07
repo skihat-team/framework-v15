@@ -20,11 +20,6 @@
  */
 class Theme extends CollectionBase implements IView {
     /**
-     * @const string 模块分隔符。
-     */
-    const MODULE_SEPARATOR = ':';
-
-    /**
      * @const string 视图选项，占位符。
      */
     const OPT_PLACE = 'place';
@@ -55,8 +50,7 @@ class Theme extends CollectionBase implements IView {
             SKIHAT_PARAM_PACKAGE => $controller->request->package(),
             SKIHAT_PARAM_CONTROLLER => $controller->request->controller(),
             SKIHAT_PARAM_ACTION => $controller->request->action(),
-            self::OPT_PASS => false,
-            self::OPT_TEMPLATE => false
+            self::OPT_PASS => false, self::OPT_TEMPLATE => false
         );
 
         # 初始化成员值。
@@ -126,8 +120,8 @@ class Theme extends CollectionBase implements IView {
             # 如果当前助手还没有加载到环境中。
             if (!isset($this->_helpers[$helper])) {
                 # 如果加载的不是模块助手。
-                if (strpos($helper, self::MODULE_SEPARATOR) !== false) {
-                    list($module, $file) = explode(self::MODULE_SEPARATOR, $helper);
+                if (strpos($helper, SKIHAT_MODULE_SEPARATOR) !== false) {
+                    list($module, $file) = explode(SKIHAT_MODULE_SEPARATOR, $helper);
                     $this->_helpers[$helper] = Skihat::import("{$module}.views.__helpers.{$file}", SKIHAT_PATH_APP_MODULES);
                 } else {
                     $this->_helpers[$helper] = Skihat::import($helper, $paths);

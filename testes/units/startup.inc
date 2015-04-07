@@ -25,6 +25,7 @@ define('SKIHAT_CURRENT_DOMAIN', 'www.example.com');
 # 文件查询常量。
 define('SKIHAT_FILE_EXT', '.inc');
 define('SKIHAT_CLASS_SEPARATOR', '#');
+define('SKIHAT_MODULE_SEPARATOR', ':');
 define('SKIHAT_PACKAGE_SEPARATOR', '.');
 
 # 文件路径。

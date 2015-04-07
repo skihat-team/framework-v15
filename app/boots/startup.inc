@@ -19,7 +19,9 @@ define('SKIHAT_DEBUG_CACHE', 1);
 
 # 文件查询常量。
 define('SKIHAT_FILE_EXT', '.inc');
+
 define('SKIHAT_CLASS_SEPARATOR', '#');
+define('SKIHAT_MODULE_SEPARATOR', ':');
 define('SKIHAT_PACKAGE_SEPARATOR', '.');
 
 # IOC 控制常量。

@@ -495,7 +495,7 @@ abstract class Skihat {
      * @return array(module,file)
      */
     protected static function _splitI18n($file) {
-        if (count($splits = explode(':', $file)) > 1) {
+        if (count($splits = explode(SKIHAT_MODULE_SEPARATOR, $file)) > 1) {
             return array(SKIHAT_PATH_APP_MODULES . DIRECTORY_SEPARATOR . $splits[0] . DIRECTORY_SEPARATOR . 'langs', $splits[1]);
         }
 

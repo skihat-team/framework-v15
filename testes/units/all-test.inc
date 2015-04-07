@@ -80,7 +80,7 @@ class AllTest extends PHPUnit_Framework_TestSuite {
 
         # 视图组件
         $all->addTestFile(SKIHAT_PATH_TESTES_UNITS . '/library/views/theme-test.inc');
-       # $all->addTestFile(SKIHAT_PATH_TESTES_UNITS . '/library/views/__helpers/form-test.inc');
+        $all->addTestFile(SKIHAT_PATH_TESTES_UNITS . '/library/views/__helpers/form-test.inc');
 
         return $all;
     }
