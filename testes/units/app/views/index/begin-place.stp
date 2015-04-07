@@ -1,0 +1,2 @@
+<?php $this->layout('inflate'); ?>
+<?php $this->beginPlace('default'); ?>begin-place<?php $this->endPlace();

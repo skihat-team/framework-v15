@@ -1,0 +1,9 @@
+<!DOCTYPE html>∑
+<html lang="zh-cn">
+    <head>
+        <title>Skihat</title>
+    </head>
+    <body>
+        <?php $this->inflate('work'); ?>
+    </body>
+</html>
